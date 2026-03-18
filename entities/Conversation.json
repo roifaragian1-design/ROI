@@ -1,0 +1,40 @@
+{
+  "name": "Conversation",
+  "type": "object",
+  "properties": {
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "description": "List of user emails in this conversation"
+    },
+    "last_message": {
+      "type": "string",
+      "description": "Preview of the last message"
+    },
+    "last_message_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "active_game_id": {
+      "type": "string",
+      "description": "ID of the currently active game in this conversation"
+    },
+    "is_archived": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this conversation has been archived"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the conversation was created"
+    }
+  },
+  "required": [
+    "participants",
+    "created_at"
+  ]
+}

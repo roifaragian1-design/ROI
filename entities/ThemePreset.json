@@ -1,0 +1,95 @@
+{
+  "name": "ThemePreset",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Email of the user who owns this theme"
+    },
+    "preset_name": {
+      "type": "string",
+      "description": "Name of the theme preset"
+    },
+    "colors": {
+      "type": "object",
+      "description": "Custom color palette",
+      "properties": {
+        "primary": { "type": "string" },
+        "secondary": { "type": "string" },
+        "accent": { "type": "string" },
+        "background": { "type": "string" },
+        "text": { "type": "string" }
+      }
+    },
+    "fonts": {
+      "type": "object",
+      "description": "Font settings",
+      "properties": {
+        "family": { "type": "string" },
+        "size": {
+          "type": "string",
+          "enum": ["sm", "base", "lg", "xl"],
+          "default": "base"
+        }
+      }
+    },
+    "animations": {
+      "type": "object",
+      "description": "Animation settings",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "speed": {
+          "type": "string",
+          "enum": ["slow", "normal", "fast"]
+        },
+        "smoothTransitions": { "type": "boolean" }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "description": "Audio preferences for games",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "musicStyle": {
+          "type": "string",
+          "enum": ["upbeat", "calm", "epic", "ambient", "chiptune"],
+          "default": "upbeat"
+        },
+        "effectStyle": {
+          "type": "string",
+          "enum": ["retro", "modern", "organic", "synth"],
+          "default": "modern"
+        },
+        "volume": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.5
+        },
+        "gamePreferences": {
+          "type": "object",
+          "description": "Per-game audio settings"
+        }
+      }
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is the active theme"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "user_email",
+    "preset_name",
+    "colors",
+    "fonts",
+    "animations"
+  ]
+}

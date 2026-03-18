@@ -1,0 +1,70 @@
+{
+  "name": "Message",
+  "type": "object",
+  "properties": {
+    "conversation_id": {
+      "type": "string",
+      "description": "ID of the conversation"
+    },
+    "sender_email": {
+      "type": "string"
+    },
+    "sender_name": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string",
+      "default": ""
+    },
+    "message_type": {
+      "type": "string",
+      "enum": [
+        "text",
+        "image",
+        "video",
+        "game_invite",
+        "game_result",
+        "medal_alert",
+        "file",
+        "location",
+        "video_call",
+        "audio_call"
+      ],
+      "default": "text"
+    },
+    "game_data": {
+      "type": "object",
+      "description": "Additional data for media, games, or calls"
+    },
+    "read_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of user emails who have read this message",
+      "default": []
+    },
+    "is_edited": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this message has been edited"
+    },
+    "edited_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the message was last edited"
+    },
+    "sent_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the message was sent"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "sender_email",
+    "sender_name",
+    "message_type",
+    "sent_at"
+  ]
+}

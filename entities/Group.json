@@ -1,0 +1,66 @@
+{
+  "name": "Group",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Group name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Group description"
+    },
+    "creator_email": {
+      "type": "string",
+      "description": "Email of group creator"
+    },
+    "members": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" },
+          "name": { "type": "string" },
+          "role": {
+            "type": "string",
+            "enum": ["admin", "member"],
+            "default": "member"
+          },
+          "joined_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["email", "role"]
+      },
+      "minItems": 1,
+      "description": "Group members with roles"
+    },
+    "last_message": {
+      "type": "string"
+    },
+    "last_message_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "group_icon_emoji": {
+      "type": "string",
+      "default": "👥"
+    },
+    "group_image": {
+      "type": "string",
+      "description": "URL of the group profile image"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the group was created"
+    }
+  },
+  "required": [
+    "name",
+    "creator_email",
+    "members",
+    "created_at"
+  ]
+}

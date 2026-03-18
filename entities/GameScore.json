@@ -1,0 +1,56 @@
+{
+  "name": "GameScore",
+  "type": "object",
+  "properties": {
+    "player_email": {
+      "type": "string"
+    },
+    "player_name": {
+      "type": "string"
+    },
+    "game_type": {
+      "type": "string",
+      "enum": [
+        "tic_tac_toe",
+        "memory",
+        "guess_number",
+        "rock_paper_scissors",
+        "speed_cards",
+        "chess",
+        "snooker",
+        "solitaire",
+        "darts",
+        "catch_ball",
+        "trivia",
+        "maze_race",
+        "tug_of_war",
+        "color_catch",
+        "vault_code",
+        "power_checkers",
+        "kitchen_clash"
+      ]
+    },
+    "score": {
+      "type": "number",
+      "default": 0
+    },
+    "wins": {
+      "type": "number",
+      "default": 0
+    },
+    "losses": {
+      "type": "number",
+      "default": 0
+    },
+    "draws": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "player_email",
+    "player_name",
+    "game_type",
+    "score"
+  ]
+}

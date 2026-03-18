@@ -1,0 +1,70 @@
+{
+  "name": "Achievement",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Email of the user who earned this achievement"
+    },
+    "user_name": {
+      "type": "string"
+    },
+    "game_type": {
+      "type": "string",
+      "enum": [
+        "tic_tac_toe",
+        "memory",
+        "guess_number",
+        "rock_paper_scissors",
+        "speed_cards",
+        "chess",
+        "snooker",
+        "solitaire",
+        "general"
+      ]
+    },
+    "achievement_type": {
+      "type": "string",
+      "enum": [
+        "first_win",
+        "win_streak_3",
+        "win_streak_5",
+        "win_streak_10",
+        "total_wins_10",
+        "total_wins_50",
+        "total_wins_100",
+        "perfect_game",
+        "speed_win"
+      ],
+      "description": "Type of achievement earned"
+    },
+    "rarity": {
+      "type": "string",
+      "enum": [
+        "bronze",
+        "silver",
+        "gold"
+      ],
+      "default": "bronze"
+    },
+    "title": {
+      "type": "string",
+      "description": "Display title of the achievement"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of how it was earned"
+    },
+    "earned_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "user_email",
+    "game_type",
+    "achievement_type",
+    "rarity",
+    "earned_at"
+  ]
+}

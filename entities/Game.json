@@ -1,0 +1,81 @@
+{
+  "name": "Game",
+  "type": "object",
+  "properties": {
+    "game_type": {
+      "type": "string",
+      "enum": [
+        "tic_tac_toe",
+        "memory",
+        "guess_number",
+        "rock_paper_scissors",
+        "speed_cards",
+        "chess",
+        "snooker",
+        "solitaire",
+        "darts",
+        "catch_ball",
+        "trivia",
+        "maze_race",
+        "tug_of_war",
+        "color_catch",
+        "vault_code",
+        "power_checkers",
+        "kitchen_clash"
+      ]
+    },
+    "players": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "maxItems": 4,
+      "description": "Array of player emails (2-4 players)"
+    },
+    "player_names": {
+      "type": "object",
+      "description": "Map of email -> display name"
+    },
+    "current_turn": {
+      "type": "string",
+      "description": "Email of player whose turn it is"
+    },
+    "game_state": {
+      "type": "object",
+      "description": "Current state of the game"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "waiting",
+        "active",
+        "finished"
+      ],
+      "default": "waiting"
+    },
+    "winner": {
+      "type": "string"
+    },
+    "conversation_id": {
+      "type": "string"
+    },
+    "group_id": {
+      "type": "string"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finished_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the game ended"
+    }
+  },
+  "required": [
+    "game_type",
+    "players",
+    "status"
+  ]
+}

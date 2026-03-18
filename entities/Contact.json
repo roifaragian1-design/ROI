@@ -1,0 +1,44 @@
+{
+  "name": "Contact",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email of the user who owns this contact"
+    },
+    "name": {
+      "type": "string",
+      "description": "Contact name"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Contact email"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Contact phone number"
+    },
+    "group": {
+      "type": "string",
+      "description": "Contact group/category"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags associated with contact"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes about the contact"
+    }
+  },
+  "required": [
+    "user_email",
+    "name",
+    "email"
+  ]
+}

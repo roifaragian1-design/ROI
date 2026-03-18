@@ -1,0 +1,46 @@
+{
+  "name": "GroupMessage",
+  "type": "object",
+  "properties": {
+    "group_id": {
+      "type": "string",
+      "description": "ID of the group"
+    },
+    "sender_email": {
+      "type": "string"
+    },
+    "sender_name": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string",
+      "default": ""
+    },
+    "message_type": {
+      "type": "string",
+      "enum": [
+        "text",
+        "image",
+        "file",
+        "location"
+      ],
+      "default": "text"
+    },
+    "media_data": {
+      "type": "object",
+      "description": "Additional data for media or files"
+    },
+    "sent_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the message was sent"
+    }
+  },
+  "required": [
+    "group_id",
+    "sender_email",
+    "sender_name",
+    "message_type",
+    "sent_at"
+  ]
+}
