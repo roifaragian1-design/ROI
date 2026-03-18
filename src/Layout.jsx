@@ -1,0 +1,282 @@
+import React, { useState, useEffect } from 'react'; // FIX #1: missing imports
+import ThemeCustomizer from '@/components/theme/ThemeCustomizer';
+import BackgroundBubbles from '@/components/BackgroundBubbles';
+
+export default function Layout({ children }) {
+  const [theme, setTheme] = useState(() => localStorage.getItem('app_theme') || 'light');
+  const [fontSize, setFontSize] = useState(() => localStorage.getItem('app_font_size') || 'base');
+  const [showThemeCustomizer, setShowThemeCustomizer] = useState(false);
+  const [customColors, setCustomColors] = useState(() => {
+    const saved = localStorage.getItem('app_theme_colors');
+    return saved ? JSON.parse(saved) : null;
+  });
+  const [customFonts, setCustomFonts] = useState(() => {
+    const saved = localStorage.getItem('app_theme_fonts');
+    return saved ? JSON.parse(saved) : null;
+  });
+  const [customAnimations, setCustomAnimations] = useState(() => {
+    const saved = localStorage.getItem('app_theme_animations');
+    // FIX #2: JSON.parse('null') returns null — must guard against it
+    const parsed = saved ? JSON.parse(saved) : null;
+    return parsed && typeof parsed === 'object' ? parsed : { enabled: true, speed: 'normal' };
+  });
+  const [bgImage, setBgImage] = useState(() => localStorage.getItem('app_bg_image') || '');
+  const [bgPosition, setBgPosition] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('app_bg_position') || '{"x": 0, "y": 0, "zoom": 1}'); }
+    catch { return { x: 0, y: 0, zoom: 1 }; }
+  });
+
+  // Listen for bg image and position changes (without page reload)
+  useEffect(() => {
+    const handler = () => {
+      setBgImage(localStorage.getItem('app_bg_image') || '');
+      try {
+        const pos = JSON.parse(localStorage.getItem('app_bg_position') || '{"x": 0, "y": 0, "zoom": 1}');
+        setBgPosition(pos);
+      } catch { }
+    };
+    window.addEventListener('storage', handler);
+    window.addEventListener('bgImageUpdate', handler);
+    return () => { window.removeEventListener('storage', handler); window.removeEventListener('bgImageUpdate', handler); };
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('app_theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem('app_font_size', fontSize);
+    document.documentElement.setAttribute('data-font-size', fontSize);
+  }, [fontSize]);
+
+  const themeBg = theme === 'dark'
+    ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950'
+    : theme === 'colorful'
+      ? 'bg-gradient-to-br from-cyan-100 via-teal-50 to-sky-100'
+      : 'bg-gradient-to-br from-white to-cyan-50';
+
+  const fontSizeMap = { sm: '0.875rem', base: '1rem', lg: '1.125rem', xl: '1.25rem' };
+
+  const animationSpeed = {
+    slow: '0.5s',
+    normal: '0.3s',
+    fast: '0.15s'
+  };
+
+  const primaryColor = customColors?.primary || '#40C4C4';
+  const secondaryColor = customColors?.secondary || '#2C3E50';
+  const accentColor = customColors?.accent || '#FF7F50';
+
+  // FIX #3: guard against invalid speed value
+  const animDuration = animationSpeed[customAnimations?.speed] || '0.3s';
+  const animEnabled = customAnimations?.enabled ?? true;
+
+  useEffect(() => {
+    const faviconSvg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:${primaryColor};stop-opacity:1' /><stop offset='100%' style='stop-color:%238b5cf6;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><text x='50' y='70' font-size='60' font-weight='900' text-anchor='middle' fill='white' font-family='Arial'>💬</text></svg>`;
+    const faviconUrl = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
+    link.href = faviconUrl;
+  }, [primaryColor]);
+
+  return (
+    <div
+      className={`${!bgImage ? themeBg : ''} transition-all duration-500`}
+      style={{
+        transition: 'opacity 0.2s ease',
+        fontSize: fontSizeMap[fontSize],
+        color: theme === 'dark' ? 'white' : theme === 'light' ? '#1f2937' : 'inherit',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        ...(bgImage ? {
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: `calc(100% * ${bgPosition.zoom})`,
+          backgroundPosition: `${bgPosition.x}px ${bgPosition.y}px`,
+          backgroundRepeat: 'no-repeat',
+        } : {})
+      }}
+    >
+      <BackgroundBubbles />
+      <style>{`
+        :root {
+          --primary: ${primaryColor};
+          --primary-dark: ${primaryColor}dd;
+          --accent: ${accentColor};
+          --safe-top: env(safe-area-inset-top, 0px);
+          --safe-bottom: env(safe-area-inset-bottom, 0px);
+          --safe-left: env(safe-area-inset-left, 0px);
+          --safe-right: env(safe-area-inset-right, 0px);
+          --animation-duration: ${animDuration};
+        }
+        * {
+          -webkit-tap-highlight-color: transparent;
+          -webkit-touch-callout: none;
+          box-sizing: border-box;
+        }
+        html, body {
+          overscroll-behavior: none;
+          overflow: hidden;
+          width: 100%;
+          height: 100%;
+          max-width: 100%;
+          touch-action: manipulation;
+          -webkit-overflow-scrolling: touch;
+          -webkit-text-size-adjust: 100%;
+          -ms-text-size-adjust: 100%;
+        }
+        #root {
+          width: 100%;
+          height: 100%;
+          max-width: 100%;
+          overflow: hidden;
+        }
+        /* FIX #4: removed duplicate .pt-safe / .pb-safe — keep only the extended version */
+        .pt-safe { padding-top: max(env(safe-area-inset-top, 0px), 12px); }
+        .pb-safe { padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px); }
+        .pl-safe { padding-left: env(safe-area-inset-left, 0px); }
+        .pr-safe { padding-right: env(safe-area-inset-right, 0px); }
+        /* Smooth scrolling for message lists */
+        .messages-scroll {
+          -webkit-overflow-scrolling: touch;
+          scroll-behavior: smooth;
+        }
+        /* Better tap targets for mobile */
+        button, a {
+          min-height: 44px;
+          min-width: 44px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: transparent;
+          user-select: none;
+          -webkit-user-select: none;
+        }
+        /* Prevent text zoom on iOS inputs */
+        input, textarea, select {
+          font-size: 16px !important;
+          -webkit-appearance: none;
+          border-radius: 0;
+        }
+        /* Remove blue highlight on tap */
+        input:focus, textarea:focus, button:focus {
+          outline: none;
+        }
+        /* Smooth momentum scrolling */
+        .messages-scroll, [class*="overflow-y-auto"] {
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior-y: contain;
+        }
+        /* Prevent double-tap zoom */
+        * { touch-action: pan-x pan-y; }
+        button, a, [role="button"] { touch-action: manipulation; }
+        /* Scrollbar hide for mobile */
+        ::-webkit-scrollbar { display: none; }
+        * { scrollbar-width: none; }
+        /* Keyboard-aware viewport */
+        .h-screen-mobile {
+          height: 100vh;
+          height: 100dvh;
+        }
+        /* Full height interactive viewport (shrinks with keyboard) */
+        .h-interactive {
+          height: 100vh;
+          height: 100dvh;
+        }
+        /* Notch-aware padding for headers */
+        .header-safe {
+          padding-top: max(env(safe-area-inset-top, 0px), 12px);
+        }
+        /* Theme styles */
+        [data-theme="dark"] {
+          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+          color: #f1f5f9;
+        }
+        [data-theme="dark"] input,
+        [data-theme="dark"] textarea,
+        [data-theme="dark"] select {
+          background-color: #1e293b;
+          color: #f1f5f9;
+          border-color: #334155;
+        }
+        [data-theme="dark"] .bg-white {
+          background-color: #1e293b;
+        }
+        [data-theme="dark"] .text-gray-900 {
+          color: #f1f5f9;
+        }
+        [data-theme="dark"] .bg-gray-50 {
+          background-color: #0f172a;
+        }
+        [data-theme="dark"] .border-gray-100 {
+          border-color: #334155;
+        }
+        [data-theme="dark"] .glassmorphic,
+        [data-theme="dark"] [style*="rgba(240, 255, 254"] {
+          background: linear-gradient(135deg, rgba(15, 23, 42, 0.97) 0%, rgba(30, 41, 59, 0.95) 100%) !important;
+          border-color: rgba(255,255,255,0.08) !important;
+        }
+        [data-theme="dark"] input,
+        [data-theme="dark"] textarea {
+          background-color: rgba(30, 41, 59, 0.9) !important;
+          color: #e2e8f0 !important;
+          border-color: rgba(255,255,255,0.12) !important;
+        }
+        [data-theme="dark"] input::placeholder,
+        [data-theme="dark"] textarea::placeholder {
+          color: rgba(148, 163, 184, 0.6) !important;
+        }
+        /* Smooth transitions */
+        * {
+          transition: ${animEnabled ? `background-color var(--animation-duration) ease, color var(--animation-duration) ease, border-color var(--animation-duration) ease` : 'none'};
+        }
+        /* Custom font */
+        body {
+          font-family: ${customFonts?.family || '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'};
+        }
+        /* Brand color system */
+        :root {
+          --color-primary: ${primaryColor};
+          --color-secondary: ${secondaryColor};
+          --color-cta: ${accentColor};
+        }
+        /* CTA buttons – coral orange */
+        .btn-cta, [data-cta="true"] {
+          background: ${accentColor} !important;
+          color: #fff !important;
+          box-shadow: 0 4px 20px ${accentColor}60;
+        }
+        /* Primary action buttons – turquoise */
+        .btn-primary {
+          background: linear-gradient(135deg, ${primaryColor}, #2dd4bf) !important;
+          color: #fff !important;
+          box-shadow: 0 4px 20px ${primaryColor}50;
+        }
+        /* Info/card backgrounds use white + subtle turquoise border */
+        .card-info {
+          background: #ffffff !important;
+          border: 1px solid ${primaryColor}30 !important;
+          color: ${secondaryColor} !important;
+        }
+        /* Game/PVP headers – dark charcoal */
+        .game-header {
+          background: ${secondaryColor} !important;
+          color: #ffffff !important;
+        }
+        .bg-gradient-to-l, .bg-gradient-to-r {
+          background: linear-gradient(135deg, ${primaryColor} 0%, #2dd4bf 100%);
+        }
+      `}</style>
+      {children}
+      {showThemeCustomizer && (
+        <ThemeCustomizer onClose={() => setShowThemeCustomizer(false)} />
+      )}
+    </div>
+  );
+}
