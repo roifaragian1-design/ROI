@@ -21,10 +21,11 @@ export default function Layout({ children }) {
     } catch { return null; }
   });
   const [customAnimations, setCustomAnimations] = useState(() => {
-    const saved = localStorage.getItem('app_theme_animations');
-    // FIX #2: JSON.parse('null') returns null — must guard against it
-    const parsed = saved ? JSON.parse(saved) : null;
-    return parsed && typeof parsed === 'object' ? parsed : { enabled: true, speed: 'normal' };
+    try {
+      const saved = localStorage.getItem('app_theme_animations');
+      const parsed = saved ? JSON.parse(saved) : null;
+      return parsed && typeof parsed === 'object' ? parsed : { enabled: true, speed: 'normal' };
+    } catch { return { enabled: true, speed: 'normal' }; }
   });
   const [bgImage, setBgImage] = useState(() => localStorage.getItem('app_bg_image') || '');
   const [bgPosition, setBgPosition] = useState(() => {
