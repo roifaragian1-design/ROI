@@ -20,6 +20,17 @@
         "chess",
         "snooker",
         "solitaire",
+        "darts",
+        "catch_ball",
+        "trivia",
+        "maze_race",
+        "tug_of_war",
+        "color_catch",
+        "vault_code",
+        "reverse_sentence",
+        "country_city",
+        "power_checkers",
+        "kitchen_clash",
         "general"
       ]
     },

@@ -29,6 +29,7 @@
       "items": {
         "type": "string"
       },
+      "default": [],
       "description": "Tags associated with contact"
     },
     "notes": {

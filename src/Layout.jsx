@@ -7,12 +7,18 @@ export default function Layout({ children }) {
   const [fontSize, setFontSize] = useState(() => localStorage.getItem('app_font_size') || 'base');
   const [showThemeCustomizer, setShowThemeCustomizer] = useState(false);
   const [customColors, setCustomColors] = useState(() => {
-    const saved = localStorage.getItem('app_theme_colors');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem('app_theme_colors');
+      const parsed = saved ? JSON.parse(saved) : null;
+      return parsed && typeof parsed === 'object' ? parsed : null;
+    } catch { return null; }
   });
   const [customFonts, setCustomFonts] = useState(() => {
-    const saved = localStorage.getItem('app_theme_fonts');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem('app_theme_fonts');
+      const parsed = saved ? JSON.parse(saved) : null;
+      return parsed && typeof parsed === 'object' ? parsed : null;
+    } catch { return null; }
   });
   const [customAnimations, setCustomAnimations] = useState(() => {
     const saved = localStorage.getItem('app_theme_animations');
@@ -49,6 +55,18 @@ export default function Layout({ children }) {
     localStorage.setItem('app_font_size', fontSize);
     document.documentElement.setAttribute('data-font-size', fontSize);
   }, [fontSize]);
+
+  useEffect(() => {
+    if (customColors) localStorage.setItem('app_theme_colors', JSON.stringify(customColors));
+  }, [customColors]);
+
+  useEffect(() => {
+    if (customFonts) localStorage.setItem('app_theme_fonts', JSON.stringify(customFonts));
+  }, [customFonts]);
+
+  useEffect(() => {
+    localStorage.setItem('app_theme_animations', JSON.stringify(customAnimations));
+  }, [customAnimations]);
 
   const themeBg = theme === 'dark'
     ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950'

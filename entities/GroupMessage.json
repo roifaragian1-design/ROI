@@ -30,6 +30,24 @@
       "type": "object",
       "description": "Additional data for media or files"
     },
+    "read_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of user emails who have read this message",
+      "default": []
+    },
+    "is_edited": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this message has been edited"
+    },
+    "edited_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the message was last edited"
+    },
     "sent_at": {
       "type": "string",
       "format": "date-time",
