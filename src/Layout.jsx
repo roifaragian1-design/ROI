@@ -4,11 +4,16 @@ import BackgroundBubbles from '@/components/BackgroundBubbles';
 
 // Static CSS injected once — never re-rendered
 const STATIC_STYLE = `
-  * {
+  *, *::before, *::after {
+    box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
-    box-sizing: border-box;
+    scrollbar-width: none;
+    transition: background-color var(--animation-duration, 0.3s) ease,
+                color var(--animation-duration, 0.3s) ease,
+                border-color var(--animation-duration, 0.3s) ease;
   }
+  *::-webkit-scrollbar { display: none; }
   html, body {
     overscroll-behavior: none;
     overflow: hidden;
@@ -37,18 +42,18 @@ const STATIC_STYLE = `
   .pl-safe { padding-left: env(safe-area-inset-left, 0px); }
   .pr-safe { padding-right: env(safe-area-inset-right, 0px); }
   .header-safe { padding-top: max(env(safe-area-inset-top, 0px), 12px); }
-  .messages-scroll {
+  .messages-scroll, [class*="overflow-y-auto"] {
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
     scroll-behavior: smooth;
   }
-  button, a {
+  button, a, [role="button"] {
     min-height: 44px;
     min-width: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
     user-select: none;
     -webkit-user-select: none;
   }
@@ -58,34 +63,15 @@ const STATIC_STYLE = `
     border-radius: 0;
   }
   input:focus, textarea:focus, button:focus { outline: none; }
-  .messages-scroll, [class*="overflow-y-auto"] {
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-  }
-  * { touch-action: pan-x pan-y; }
-  button, a, [role="button"] { touch-action: manipulation; }
-  ::-webkit-scrollbar { display: none; }
-  * { scrollbar-width: none; }
   .h-screen-mobile, .h-interactive { height: 100vh; height: 100dvh; }
   [data-theme="dark"] {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     color: #f1f5f9;
   }
-  [data-theme="dark"] input,
-  [data-theme="dark"] textarea,
   [data-theme="dark"] select {
     background-color: #1e293b;
     color: #f1f5f9;
     border-color: #334155;
-  }
-  [data-theme="dark"] .bg-white { background-color: #1e293b; }
-  [data-theme="dark"] .text-gray-900 { color: #f1f5f9; }
-  [data-theme="dark"] .bg-gray-50 { background-color: #0f172a; }
-  [data-theme="dark"] .border-gray-100 { border-color: #334155; }
-  [data-theme="dark"] .glassmorphic,
-  [data-theme="dark"] [style*="rgba(240, 255, 254"] {
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.97) 0%, rgba(30, 41, 59, 0.95) 100%) !important;
-    border-color: rgba(255,255,255,0.08) !important;
   }
   [data-theme="dark"] input,
   [data-theme="dark"] textarea {
@@ -96,6 +82,15 @@ const STATIC_STYLE = `
   [data-theme="dark"] input::placeholder,
   [data-theme="dark"] textarea::placeholder {
     color: rgba(148, 163, 184, 0.6) !important;
+  }
+  [data-theme="dark"] .bg-white { background-color: #1e293b; }
+  [data-theme="dark"] .text-gray-900 { color: #f1f5f9; }
+  [data-theme="dark"] .bg-gray-50 { background-color: #0f172a; }
+  [data-theme="dark"] .border-gray-100 { border-color: #334155; }
+  [data-theme="dark"] .glassmorphic,
+  [data-theme="dark"] [style*="rgba(240, 255, 254"] {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.97) 0%, rgba(30, 41, 59, 0.95) 100%) !important;
+    border-color: rgba(255,255,255,0.08) !important;
   }
   .btn-cta, [data-cta="true"] {
     background: var(--accent) !important;
@@ -118,11 +113,6 @@ const STATIC_STYLE = `
   }
   .bg-gradient-to-l, .bg-gradient-to-r {
     background: linear-gradient(135deg, var(--primary) 0%, #2dd4bf 100%);
-  }
-  * {
-    transition: background-color var(--animation-duration, 0.3s) ease,
-                color var(--animation-duration, 0.3s) ease,
-                border-color var(--animation-duration, 0.3s) ease;
   }
 `;
 
