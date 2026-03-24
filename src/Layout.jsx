@@ -158,8 +158,14 @@ export default function Layout({ children }) {
   // Persist to localStorage
   useEffect(() => { localStorage.setItem('app_theme', theme); document.documentElement.setAttribute('data-theme', theme); }, [theme]);
   useEffect(() => { localStorage.setItem('app_font_size', fontSize); document.documentElement.setAttribute('data-font-size', fontSize); }, [fontSize]);
-  useEffect(() => { if (customColors) localStorage.setItem('app_theme_colors', JSON.stringify(customColors)); }, [customColors]);
-  useEffect(() => { if (customFonts) localStorage.setItem('app_theme_fonts', JSON.stringify(customFonts)); }, [customFonts]);
+  useEffect(() => {
+    if (customColors) localStorage.setItem('app_theme_colors', JSON.stringify(customColors));
+    else localStorage.removeItem('app_theme_colors');
+  }, [customColors]);
+  useEffect(() => {
+    if (customFonts) localStorage.setItem('app_theme_fonts', JSON.stringify(customFonts));
+    else localStorage.removeItem('app_theme_fonts');
+  }, [customFonts]);
   useEffect(() => { localStorage.setItem('app_theme_animations', JSON.stringify(customAnimations)); }, [customAnimations]);
 
   // Background image sync across tabs
@@ -213,9 +219,9 @@ export default function Layout({ children }) {
 
   return (
     <div
-      className={`${!bgImage ? themeBg : ''} transition-all duration-500`}
+      className={`${!bgImage ? themeBg : ''}`}
       style={{
-        transition: 'opacity 0.2s ease',
+        transition: 'background-color 0.5s ease, opacity 0.2s ease',
         color: theme === 'dark' ? 'white' : theme === 'light' ? '#1f2937' : 'inherit',
         width: '100%',
         height: '100%',
