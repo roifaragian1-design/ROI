@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import ThemeCustomizer from '@/components/theme/ThemeCustomizer';
 import BackgroundBubbles from '@/components/BackgroundBubbles';
 
 // Static CSS injected once — never re-rendered
@@ -130,7 +129,6 @@ const ANIMATION_SPEED = { slow: '0.5s', normal: '0.3s', fast: '0.15s' };
 export default function Layout({ children }) {
   const [theme, setTheme] = useState(() => localStorage.getItem('app_theme') || 'light');
   const [fontSize, setFontSize] = useState(() => localStorage.getItem('app_font_size') || 'base');
-  const [showThemeCustomizer, setShowThemeCustomizer] = useState(false);
   const [customColors, setCustomColors] = useState(() => {
     try {
       const parsed = JSON.parse(localStorage.getItem('app_theme_colors'));
@@ -236,9 +234,6 @@ export default function Layout({ children }) {
     >
       <BackgroundBubbles />
       {children}
-      {showThemeCustomizer && (
-        <ThemeCustomizer onClose={() => setShowThemeCustomizer(false)} />
-      )}
     </div>
   );
 }
