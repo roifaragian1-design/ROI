@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import BackgroundBubbles from '@/components/BackgroundBubbles';
 
 // Static CSS injected once — never re-rendered
@@ -210,22 +210,24 @@ export default function Layout({ children }) {
       ? 'bg-gradient-to-br from-cyan-100 via-teal-50 to-sky-100'
       : 'bg-gradient-to-br from-white to-cyan-50';
 
+  const containerStyle = useMemo(() => ({
+    transition: 'background-color 0.5s ease, opacity 0.2s ease',
+    color: theme === 'dark' ? 'white' : theme === 'light' ? '#1f2937' : 'inherit',
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden',
+    ...(bgImage ? {
+      backgroundImage: `url(${bgImage})`,
+      backgroundSize: `calc(100% * ${bgPosition.zoom})`,
+      backgroundPosition: `${bgPosition.x}px ${bgPosition.y}px`,
+      backgroundRepeat: 'no-repeat',
+    } : {})
+  }), [theme, bgImage, bgPosition.zoom, bgPosition.x, bgPosition.y]);
+
   return (
     <div
       className={`${!bgImage ? themeBg : ''}`}
-      style={{
-        transition: 'background-color 0.5s ease, opacity 0.2s ease',
-        color: theme === 'dark' ? 'white' : theme === 'light' ? '#1f2937' : 'inherit',
-        width: '100%',
-        height: '100%',
-        overflow: 'hidden',
-        ...(bgImage ? {
-          backgroundImage: `url(${bgImage})`,
-          backgroundSize: `calc(100% * ${bgPosition.zoom})`,
-          backgroundPosition: `${bgPosition.x}px ${bgPosition.y}px`,
-          backgroundRepeat: 'no-repeat',
-        } : {})
-      }}
+      style={containerStyle}
     >
       <BackgroundBubbles />
       {children}
