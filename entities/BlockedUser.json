@@ -13,17 +13,10 @@
     "blocked_name": {
       "type": "string",
       "description": "Name of the blocked user"
-    },
-    "blocked_at": {
-      "type": "string",
-      "format": "date-time",
-      "description": "Timestamp when the user was blocked"
     }
   },
   "required": [
     "user_email",
-    "blocked_email",
-    "blocked_name",
-    "blocked_at"
+    "blocked_email"
   ]
 }
