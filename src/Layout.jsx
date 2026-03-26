@@ -126,32 +126,27 @@ if (typeof document !== 'undefined' && !document.getElementById('layout-static-s
 const FONT_SIZE_MAP = { sm: '0.875rem', base: '1rem', lg: '1.125rem', xl: '1.25rem' };
 const ANIMATION_SPEED = { slow: '0.5s', normal: '0.3s', fast: '0.15s' };
 
+function getStoredJSON(key, fallback = null) {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(key));
+    return parsed && typeof parsed === 'object' ? parsed : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 export default function Layout({ children }) {
   const [theme, setTheme] = useState(() => localStorage.getItem('app_theme') || 'light');
   const [fontSize, setFontSize] = useState(() => localStorage.getItem('app_font_size') || 'base');
-  const [customColors, setCustomColors] = useState(() => {
-    try {
-      const parsed = JSON.parse(localStorage.getItem('app_theme_colors'));
-      return parsed && typeof parsed === 'object' ? parsed : null;
-    } catch { return null; }
-  });
-  const [customFonts, setCustomFonts] = useState(() => {
-    try {
-      const parsed = JSON.parse(localStorage.getItem('app_theme_fonts'));
-      return parsed && typeof parsed === 'object' ? parsed : null;
-    } catch { return null; }
-  });
-  const [customAnimations, setCustomAnimations] = useState(() => {
-    try {
-      const parsed = JSON.parse(localStorage.getItem('app_theme_animations'));
-      return parsed && typeof parsed === 'object' ? parsed : { enabled: true, speed: 'normal' };
-    } catch { return { enabled: true, speed: 'normal' }; }
-  });
+  const [customColors, setCustomColors] = useState(() => getStoredJSON('app_theme_colors'));
+  const [customFonts, setCustomFonts] = useState(() => getStoredJSON('app_theme_fonts'));
+  const [customAnimations, setCustomAnimations] = useState(
+    () => getStoredJSON('app_theme_animations') || { enabled: true, speed: 'normal' }
+  );
   const [bgImage, setBgImage] = useState(() => localStorage.getItem('app_bg_image') || '');
-  const [bgPosition, setBgPosition] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('app_bg_position') || '{"x":0,"y":0,"zoom":1}'); }
-    catch { return { x: 0, y: 0, zoom: 1 }; }
-  });
+  const [bgPosition, setBgPosition] = useState(
+    () => getStoredJSON('app_bg_position') || { x: 0, y: 0, zoom: 1 }
+  );
 
   // Persist to localStorage
   useEffect(() => { localStorage.setItem('app_theme', theme); document.documentElement.setAttribute('data-theme', theme); }, [theme]);
@@ -170,7 +165,7 @@ export default function Layout({ children }) {
   useEffect(() => {
     const handler = () => {
       setBgImage(localStorage.getItem('app_bg_image') || '');
-      try { setBgPosition(JSON.parse(localStorage.getItem('app_bg_position') || '{"x":0,"y":0,"zoom":1}')); } catch { }
+      setBgPosition(getStoredJSON('app_bg_position') || { x: 0, y: 0, zoom: 1 });
     };
     window.addEventListener('storage', handler);
     window.addEventListener('bgImageUpdate', handler);
