@@ -37,12 +37,18 @@
     "draws": {
       "type": "number",
       "default": 0
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the score record was created"
     }
   },
   "required": [
     "player_email",
     "player_name",
     "game_type",
-    "score"
+    "score",
+    "created_at"
   ]
 }

@@ -23,6 +23,7 @@
   "required": [
     "user_email",
     "blocked_email",
+    "blocked_name",
     "blocked_at"
   ]
 }
