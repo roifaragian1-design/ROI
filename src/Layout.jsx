@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import BackgroundBubbles from '@/components/BackgroundBubbles';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { getDirection } from '@/components/translations';
+import { Globe, Settings } from 'lucide-react';
+import { createPageUrl } from './utils';
 
 // Static CSS injected once — never re-rendered
 const STATIC_STYLE = `
@@ -135,7 +140,9 @@ function getStoredJSON(key, fallback = null) {
   }
 }
 
-export default function Layout({ children }) {
+export default function Layout({ children, currentPageName }) {
+  // Lazy init from localStorage to prevent flash on load
+  const [language, setLanguage] = useState(() => localStorage.getItem('appLanguage') || 'he');
   const [theme, setTheme] = useState(() => localStorage.getItem('app_theme') || 'light');
   const [fontSize, setFontSize] = useState(() => localStorage.getItem('app_font_size') || 'base');
   const [customColors, setCustomColors] = useState(() => getStoredJSON('app_theme_colors'));
@@ -148,7 +155,14 @@ export default function Layout({ children }) {
     () => getStoredJSON('app_bg_position') || { x: 0, y: 0, zoom: 1 }
   );
 
-  // Persist to localStorage
+  // Language sync
+  useEffect(() => {
+    localStorage.setItem('appLanguage', language);
+    document.documentElement.dir = getDirection(language);
+    document.documentElement.lang = language;
+  }, [language]);
+
+  // Persist theme settings
   useEffect(() => { localStorage.setItem('app_theme', theme); document.documentElement.setAttribute('data-theme', theme); }, [theme]);
   useEffect(() => { localStorage.setItem('app_font_size', fontSize); document.documentElement.setAttribute('data-font-size', fontSize); }, [fontSize]);
   useEffect(() => {
@@ -210,8 +224,14 @@ export default function Layout({ children }) {
       ? 'bg-gradient-to-br from-cyan-100 via-teal-50 to-sky-100'
       : 'bg-gradient-to-br from-white to-cyan-50';
 
+  // Pass language down to children that accept it
+  const childrenWithLanguage = React.Children.map(children, child =>
+    React.isValidElement(child) ? React.cloneElement(child, { language }) : child
+  );
+
   return (
     <div
+      dir={getDirection(language)}
       className={`${!bgImage ? themeBg : ''}`}
       style={{
         transition: 'background-color 0.5s ease, opacity 0.2s ease',
@@ -227,8 +247,47 @@ export default function Layout({ children }) {
         } : {})
       }}
     >
+      {/* Language selector + navigation — always LTR so it stays on the left */}
+      <div className="fixed top-20 left-4 z-[60] flex gap-2" dir="ltr">
+        <Select value={language} onValueChange={setLanguage}>
+          <SelectTrigger className="w-32 bg-white shadow-lg">
+            <Globe className="w-4 h-4 mr-2" />
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="he">עברית</SelectItem>
+            <SelectItem value="en">English</SelectItem>
+            <SelectItem value="de">Deutsch</SelectItem>
+            <SelectItem value="ar">العربية</SelectItem>
+          </SelectContent>
+        </Select>
+
+        {currentPageName === 'Home' && (
+          <>
+            <Link to={createPageUrl('About')}>
+              <button className="h-9 px-3 bg-white shadow-lg rounded-md hover:bg-slate-50 transition-colors">
+                ℹ️
+              </button>
+            </Link>
+            <Link to={createPageUrl('Settings')}>
+              <button className="h-9 px-3 bg-white shadow-lg rounded-md hover:bg-slate-50 transition-colors flex items-center gap-2">
+                <Settings className="w-4 h-4" />
+              </button>
+            </Link>
+          </>
+        )}
+
+        {(currentPageName === 'Settings' || currentPageName === 'About') && (
+          <Link to={createPageUrl('Home')}>
+            <button className="h-9 px-3 bg-white shadow-lg rounded-md hover:bg-slate-50 transition-colors">
+              🏠
+            </button>
+          </Link>
+        )}
+      </div>
+
       <BackgroundBubbles />
-      {children}
+      {childrenWithLanguage}
     </div>
   );
 }
