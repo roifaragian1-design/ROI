@@ -47,17 +47,31 @@
       "default": "waiting"
     },
     "winner": {
-      "type": "string"
+      "type": "string",
+      "description": "Email of the winning player, or 'draw' if the game ended in a draw"
     },
     "conversation_id": {
-      "type": "string"
+      "type": "string",
+      "description": "ID of the conversation this game belongs to"
     },
     "group_id": {
-      "type": "string"
+      "type": "string",
+      "description": "ID of the group this game belongs to (if started from a group)"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the game was created"
     },
     "started_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Timestamp when the game started"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time the game state was updated"
     },
     "finished_at": {
       "type": "string",
@@ -68,6 +82,7 @@
   "required": [
     "game_type",
     "players",
-    "status"
+    "status",
+    "created_at"
   ]
 }
