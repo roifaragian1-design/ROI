@@ -40,11 +40,17 @@
       "type": "string",
       "format": "date-time",
       "description": "Timestamp when the contact was added"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time the contact was updated"
     }
   },
   "required": [
     "user_email",
     "name",
-    "email"
+    "email",
+    "created_at"
   ]
 }

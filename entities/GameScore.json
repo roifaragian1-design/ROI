@@ -3,10 +3,13 @@
   "type": "object",
   "properties": {
     "player_email": {
-      "type": "string"
+      "type": "string",
+      "format": "email",
+      "description": "Email of the player"
     },
     "player_name": {
-      "type": "string"
+      "type": "string",
+      "description": "Display name of the player"
     },
     "game_type": {
       "type": "string",
@@ -23,19 +26,19 @@
       ]
     },
     "score": {
-      "type": "number",
+      "type": "integer",
       "default": 0
     },
     "wins": {
-      "type": "number",
+      "type": "integer",
       "default": 0
     },
     "losses": {
-      "type": "number",
+      "type": "integer",
       "default": 0
     },
     "draws": {
-      "type": "number",
+      "type": "integer",
       "default": 0
     },
     "created_at": {

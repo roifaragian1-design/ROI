@@ -7,7 +7,8 @@
       "description": "Email of the user who earned this achievement"
     },
     "user_name": {
-      "type": "string"
+      "type": "string",
+      "description": "Display name of the user who earned this achievement"
     },
     "game_type": {
       "type": "string",
@@ -58,7 +59,8 @@
     },
     "earned_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Timestamp when the achievement was earned"
     }
   },
   "required": [
