@@ -97,18 +97,18 @@ input:focus, textarea:focus, button:focus { outline: none; }
 }
 
 .btn-cta, [data-cta="true"] {
-  background: var(--accent) !important;
+  background: var(--app-accent) !important;
   color: #fff !important;
-  box-shadow: 0 4px 20px var(--accent-shadow);
+  box-shadow: 0 4px 20px var(--app-accent-shadow);
 }
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), #2dd4bf) !important;
+  background: linear-gradient(135deg, var(--app-primary), #2dd4bf) !important;
   color: #fff !important;
-  box-shadow: 0 4px 20px var(--primary-shadow);
+  box-shadow: 0 4px 20px var(--app-primary-shadow);
 }
 .card-info {
   background: #ffffff !important;
-  border: 1px solid var(--primary-border) !important;
+  border: 1px solid var(--app-primary-border) !important;
   color: var(--color-secondary) !important;
 }
 .game-header {
@@ -116,5 +116,5 @@ input:focus, textarea:focus, button:focus { outline: none; }
   color: #ffffff !important;
 }
 .bg-gradient-to-l, .bg-gradient-to-r {
-  background: linear-gradient(135deg, var(--primary) 0%, #2dd4bf 100%);
+  background: linear-gradient(135deg, var(--app-primary) 0%, #2dd4bf 100%);
 }
