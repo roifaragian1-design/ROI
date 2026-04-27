@@ -82,7 +82,13 @@
     },
     "created_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Timestamp when the preset was created"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time the preset was updated"
     }
   },
   "required": [
@@ -90,6 +96,7 @@
     "preset_name",
     "colors",
     "fonts",
-    "animations"
+    "animations",
+    "created_at"
   ]
 }

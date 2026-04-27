@@ -37,11 +37,17 @@
       "description": "Group members with roles"
     },
     "last_message": {
-      "type": "string"
+      "type": "string",
+      "description": "Preview of the last message"
     },
     "last_message_time": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Timestamp of the last message"
+    },
+    "last_message_sender": {
+      "type": "string",
+      "description": "Email of the user who sent the last message"
     },
     "group_icon_emoji": {
       "type": "string",
@@ -55,6 +61,11 @@
       "type": "string",
       "format": "date-time",
       "description": "Timestamp when the group was created"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time the group was updated"
     }
   },
   "required": [
