@@ -16,7 +16,20 @@
     },
     "last_message_time": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Timestamp of the last message"
+    },
+    "last_message_sender": {
+      "type": "string",
+      "description": "Email of the user who sent the last message"
+    },
+    "unread_count": {
+      "type": "object",
+      "description": "Map of user email to number of unread messages",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
     },
     "active_game_id": {
       "type": "string",
@@ -31,10 +44,16 @@
       "type": "string",
       "format": "date-time",
       "description": "Timestamp when the conversation was created"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time the conversation was updated"
     }
   },
   "required": [
     "participants",
-    "created_at"
+    "created_at",
+    "updated_at"
   ]
 }
