@@ -88,12 +88,12 @@ export default function Layout({ children, currentPageName }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    root.style.setProperty('--primary', primaryColor);
-    root.style.setProperty('--primary-dark', primaryColor + 'dd');
-    root.style.setProperty('--primary-border', primaryColor + '30');
-    root.style.setProperty('--primary-shadow', primaryColor + '50');
-    root.style.setProperty('--accent', accentColor);
-    root.style.setProperty('--accent-shadow', accentColor + '60');
+    root.style.setProperty('--app-primary', primaryColor);
+    root.style.setProperty('--app-primary-dark', primaryColor + 'dd');
+    root.style.setProperty('--app-primary-border', primaryColor + '30');
+    root.style.setProperty('--app-primary-shadow', primaryColor + '50');
+    root.style.setProperty('--app-accent', accentColor);
+    root.style.setProperty('--app-accent-shadow', accentColor + '60');
     root.style.setProperty('--color-primary', primaryColor);
     root.style.setProperty('--color-secondary', secondaryColor);
     root.style.setProperty('--color-cta', accentColor);
