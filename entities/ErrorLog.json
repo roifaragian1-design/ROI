@@ -1,0 +1,68 @@
+{
+  "name": "ErrorLog",
+  "type": "object",
+  "properties": {
+    "error_message": {
+      "type": "string",
+      "description": "The error message"
+    },
+    "error_stack": {
+      "type": "string",
+      "description": "Stack trace"
+    },
+    "error_type": {
+      "type": "string",
+      "enum": [
+        "js_error",
+        "promise_rejection",
+        "react_boundary",
+        "network_error",
+        "custom"
+      ],
+      "default": "js_error"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "default": "medium",
+      "description": "Severity level of the error"
+    },
+    "page_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL where the error occurred"
+    },
+    "user_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email of the user who encountered the error"
+    },
+    "user_agent": {
+      "type": "string",
+      "description": "Browser/device info"
+    },
+    "component_stack": {
+      "type": "string",
+      "description": "React component stack (for boundary errors)"
+    },
+    "extra_data": {
+      "type": "object",
+      "description": "Any additional context"
+    },
+    "is_resolved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the error has been reviewed/resolved"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the error occurred"
+    }
+  },
+  "required": [
+    "error_message",
+    "error_type",
+    "occurred_at"
+  ]
+}
