@@ -26,9 +26,7 @@
     },
     "tags": {
       "type": "array",
-      "items": {
-        "type": "string"
-      },
+      "items": { "type": "string" },
       "default": [],
       "description": "Tags associated with contact"
     },
@@ -40,11 +38,12 @@
       "type": "string",
       "format": "date-time",
       "description": "Timestamp when the contact was added"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time the contact was updated"
     }
   },
-  "required": [
-    "user_email",
-    "name",
-    "email"
-  ]
+  "required": ["user_email", "name", "email", "created_at"]
 }

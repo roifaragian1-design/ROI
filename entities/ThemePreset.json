@@ -2,14 +2,8 @@
   "name": "ThemePreset",
   "type": "object",
   "properties": {
-    "user_email": {
-      "type": "string",
-      "description": "Email of the user who owns this theme"
-    },
-    "preset_name": {
-      "type": "string",
-      "description": "Name of the theme preset"
-    },
+    "user_email": { "type": "string", "description": "Email of the user who owns this theme" },
+    "preset_name": { "type": "string", "description": "Name of the theme preset" },
     "colors": {
       "type": "object",
       "description": "Custom color palette",
@@ -26,11 +20,7 @@
       "description": "Font settings",
       "properties": {
         "family": { "type": "string" },
-        "size": {
-          "type": "string",
-          "enum": ["sm", "base", "lg", "xl"],
-          "default": "base"
-        }
+        "size": { "type": "string", "enum": ["sm", "base", "lg", "xl"], "default": "base" }
       }
     },
     "animations": {
@@ -38,10 +28,7 @@
       "description": "Animation settings",
       "properties": {
         "enabled": { "type": "boolean" },
-        "speed": {
-          "type": "string",
-          "enum": ["slow", "normal", "fast"]
-        },
+        "speed": { "type": "string", "enum": ["slow", "normal", "fast"] },
         "smoothTransitions": { "type": "boolean" }
       }
     },
@@ -49,47 +36,16 @@
       "type": "object",
       "description": "Audio preferences for games",
       "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": true
-        },
-        "musicStyle": {
-          "type": "string",
-          "enum": ["upbeat", "calm", "epic", "ambient", "chiptune"],
-          "default": "upbeat"
-        },
-        "effectStyle": {
-          "type": "string",
-          "enum": ["retro", "modern", "organic", "synth"],
-          "default": "modern"
-        },
-        "volume": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1,
-          "default": 0.5
-        },
-        "gamePreferences": {
-          "type": "object",
-          "description": "Per-game audio settings"
-        }
+        "enabled": { "type": "boolean", "default": true },
+        "musicStyle": { "type": "string", "enum": ["upbeat", "calm", "epic", "ambient", "chiptune"], "default": "upbeat" },
+        "effectStyle": { "type": "string", "enum": ["retro", "modern", "organic", "synth"], "default": "modern" },
+        "volume": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.5 },
+        "gamePreferences": { "type": "object", "description": "Per-game audio settings" }
       }
     },
-    "is_active": {
-      "type": "boolean",
-      "default": false,
-      "description": "Whether this is the active theme"
-    },
-    "created_at": {
-      "type": "string",
-      "format": "date-time"
-    }
+    "is_active": { "type": "boolean", "default": false, "description": "Whether this is the active theme" },
+    "created_at": { "type": "string", "format": "date-time", "description": "Timestamp when the preset was created" },
+    "updated_at": { "type": "string", "format": "date-time", "description": "Last time the preset was updated" }
   },
-  "required": [
-    "user_email",
-    "preset_name",
-    "colors",
-    "fonts",
-    "animations"
-  ]
+  "required": ["user_email", "preset_name", "colors", "fonts", "animations", "created_at"]
 }

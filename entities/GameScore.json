@@ -3,10 +3,13 @@
   "type": "object",
   "properties": {
     "player_email": {
-      "type": "string"
+      "type": "string",
+      "format": "email",
+      "description": "Email of the player"
     },
     "player_name": {
-      "type": "string"
+      "type": "string",
+      "description": "Display name of the player"
     },
     "game_type": {
       "type": "string",
@@ -22,33 +25,15 @@
         "kitchen_clash"
       ]
     },
-    "score": {
-      "type": "number",
-      "default": 0
-    },
-    "wins": {
-      "type": "number",
-      "default": 0
-    },
-    "losses": {
-      "type": "number",
-      "default": 0
-    },
-    "draws": {
-      "type": "number",
-      "default": 0
-    },
+    "score": { "type": "integer", "default": 0, "description": "Total score" },
+    "wins": { "type": "integer", "default": 0, "description": "Number of wins" },
+    "losses": { "type": "integer", "default": 0, "description": "Number of losses" },
+    "draws": { "type": "integer", "default": 0, "description": "Number of draws" },
     "created_at": {
       "type": "string",
       "format": "date-time",
       "description": "Timestamp when the score record was created"
     }
   },
-  "required": [
-    "player_email",
-    "player_name",
-    "game_type",
-    "score",
-    "created_at"
-  ]
+  "required": ["player_email", "player_name", "game_type", "score", "created_at"]
 }
